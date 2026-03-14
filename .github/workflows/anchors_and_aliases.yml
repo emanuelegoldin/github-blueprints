@@ -1,0 +1,12 @@
+name: Anchors and Aliases Workflow
+# <<: (merge) NOT supported in GitHub workflows
+on: [workflow_dispatch]
+
+jobs:
+  job1: &anchor
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Command Execution
+        run: echo "Execute command..."
+  job2:
+    *anchor
