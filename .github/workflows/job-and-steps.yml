@@ -5,22 +5,40 @@ on: [workflow_dispatch]              # Allows triggering the workflow manually
 jobs:                                # jobs are executed independently by default (in parallel)
   build-first:
     runs-on: ubuntu-24.04
-    steps:                           # steps are executed sequentially on the same runner; they share data; a step (might) rely on previous steps' output
+    steps:                           # steps are executed sequentially on the same runner; they share data;
       - name: Step 1
-        run: echo "Executing step 1 of build-first..."
+        id: step1                    # Define a step id (necessary to refer to this specific step) 
+        run: |
+          echo "Executing step 1 of build-first..."
+          echo "output=ABCDE\n" >> $GITHUB_OUTPUT
       - name: Step 2
-        run: echo "Executing step 2 of build-first..."
+        env:
+          PREVIOUS_STEP_OUTPUT: ${{steps.step1.outputs.output}}  # A step might rely on previous steps' output
+        run: |
+          echo "::group::Step 2 logs"
+          echo "Executing step 2 of build-first..."
+          echo "Previous step output: ${PREVIOUS_STEP_OUTPUT}"
+          echo "::endgroup::"
   build-second:
     runs-on: ubuntu-24.04
+    outputs:
+      output1: ${{steps.stepId.outputs.myValue}}    # Bind a specific step output to the job's output
     steps:
       - name: Step 1
-        run: echo "Executing step 1 of build-second..."
+        id: stepId
+        run: echo "myValue=12345\n" >> $GITHUB_OUTPUT
   test:
     runs-on: ubuntu-24.04
     needs:                            # With "needs", we can tell a job that it has to wait for other jobs to complete (e.g., to use their output)
       - build-first
       - build-second
+    env:
+      BUILD_SECOND_OUTPUT: ${{needs.build-second.outputs.output1}}    # Use a sepcifc job's output
     steps:
       - name: Run test after build
-        run: echo "Executing tests after build-first and build-second..."
+        run: |
+          echo "::group::Test logs"
+          echo "Executing tests after build-first and build-second..."
+          echo "Accessing job 'build-second' output: ${BUILD_SECOND_OUTPUT}"
+          echo "::endgroup::"
     
