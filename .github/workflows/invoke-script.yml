@@ -13,7 +13,7 @@ jobs:
       # To be able to access the project folders, you first have to checkout.
       # A list of GitHub actions can be found at https://github.com/actions/<action-name> (for instance, https://github.com/actions/checkout). Alternatively, you can inspect the Marketplace.
       - name: Checkout
-        uses: actions/checkout@v4  # Usage at https://github.com/actions/checkout/README.md
+        uses: actions/checkout@v6  # Usage at https://github.com/actions/checkout/README.md
         
       - name: Run a script (specify interpreter)
         run: bash script1.sh
