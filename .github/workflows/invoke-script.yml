@@ -10,16 +10,18 @@ jobs:
         working-directory: ./scripts/workflow_invoked # Sets working directory for all "run" in the current job; needed to tell the workflow where to look for the scripts
     steps:
       # Ref: https://stackoverflow.com/questions/64405836/no-such-file-or-directory-on-any-run-step#:~:text=If%20you%20are%20accessing%20files%20from%20the%20repo%2C%20you%20need%20to%20perform%20a%20checkout%20first%3A
-      # To be able to access the project folders, you first have to checkout.
+      # To be able to access the project folders, you first have to check out.
       # A list of GitHub actions can be found at https://github.com/actions/<action-name> (for instance, https://github.com/actions/checkout). Alternatively, you can inspect the Marketplace.
-      - name: Checkout
+      - name: Check out the repository to the runner
         uses: actions/checkout@v6                  # "uses" invokes an action (usage at https://github.com/actions/checkout/README.md)
-                                                   #   with --> map of input parameters for the actions (key-value pairs)
-        
+                                                   #   with --> map of input parameters for the actions (key-value pairs) 
       - name: Run a script (specify interpreter)
         run: bash script1.sh                       # "run" executes commands
 
+      - name: Make script executable
+        run: chmod +x script2.sh                   # We can make the script executable so that we don't have to pass the interpreter in the run clause
+        
       - name: Run multiple commands
         run:  |        # Required to execute multiple commands in the same shell
           bash script1.sh
-          bash script2.sh
+          script2.sh
