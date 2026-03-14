@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     defaults:                        # Defines defaults for the current job
       run:
-        working-directory: .github/scripts/examples # Sets working directory for all "run" in the current job; needed to tell the workflow where to look for the scripts
+        working-directory: ./scripts # Sets working directory for all "run" in the current job; needed to tell the workflow where to look for the scripts
     steps:
       # Ref: https://stackoverflow.com/questions/64405836/no-such-file-or-directory-on-any-run-step#:~:text=If%20you%20are%20accessing%20files%20from%20the%20repo%2C%20you%20need%20to%20perform%20a%20checkout%20first%3A
       # To be able to access the project folders, you first have to checkout.
@@ -17,3 +17,8 @@ jobs:
         
       - name: Run a script (specify interpreter)
         run: bash script1.sh
+
+      - name: Run multiple commands
+        run:  |        # Required to execute multiple command in the same shell
+          bash script1.sh
+          bash script2.sh
