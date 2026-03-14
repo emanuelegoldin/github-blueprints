@@ -1,0 +1,26 @@
+name: Example of complex workflow
+
+on: [workflow_dispatch]              # Allows triggering the workflow manually
+
+jobs:                                # jobs are executed independently by default (in parallel)
+  build-first:
+    runs-on: ubuntu-24.04
+    steps:                           # steps are executed sequentially on the same runner; they share data; a step (might) rely on previous steps' output
+      - name: Step 1
+        run: echo "Executing step 1 of build-first..."
+      - name: Step 2
+        run: echo "Executing step 2 of build-first..."
+  build-second:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Step 1
+        run: echo "Executing step 1 of build-second..."
+  test:
+    runs-on: ubuntu-24.04
+    needs:                            # With "needs", we can tell a job that it has to wait for other jobs to complete (e.g., to use their output)
+      - build-first
+      - build-second
+    steps:
+      - name: Run test after build
+        run: echo "Executing tests after build-first and build-second..."
+    
