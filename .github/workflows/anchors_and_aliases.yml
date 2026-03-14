@@ -1,5 +1,8 @@
-name: Anchors and Aliases Workflow
 # <<: (merge) NOT supported in GitHub workflows
+# Possible use cases
+#  - specify "path" once and reuse it
+#  - specify "env" once and reuse it
+name: Anchors and Aliases Workflow
 on: [workflow_dispatch]
 
 jobs:
