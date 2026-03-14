@@ -1,0 +1,13 @@
+name: Invoke scripts workflow
+
+on: [workflow_dispatch]              # Allows triggering the workflow manually
+
+jobs:
+  invoke-script-job:
+    runs-on: ubuntu-24.04
+    defaults:                        # Defines defaults for the current job
+      run:
+        working-directory: ./scripts # Sets working directory for all "run" in the current job; needed to tell the workflow where to look for the scripts
+    steps:
+      - name: Run a script
+        run: ./examples/script1.sh
