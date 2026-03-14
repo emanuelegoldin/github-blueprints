@@ -22,7 +22,7 @@ jobs:
         run: chmod +x script2.sh                   # We can make the script executable so that we don't have to pass the interpreter in the run clause
 
       - name: Run script directly
-        run: ./script2
+        run: ./script2.sh
         
       - name: Run multiple commands
         run:  |        # Required to execute multiple commands in the same shell
