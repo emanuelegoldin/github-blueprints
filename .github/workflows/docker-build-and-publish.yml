@@ -31,10 +31,6 @@ on:
         required: false
         type: boolean
         default: true
-    secrets:
-      token:
-        description: 'GitHub token for authentication'
-        required: true
 
 jobs:
   docker-build-and-push:
@@ -47,7 +43,7 @@ jobs:
         with:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }}
-          password: ${{ secrets.token }}
+          password: ${{ secrets.PAT }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
