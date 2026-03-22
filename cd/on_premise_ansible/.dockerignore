@@ -1,0 +1,4 @@
+Dockerfile
+ansible/
+.gitignore
+**/*.md
